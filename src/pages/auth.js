@@ -1,0 +1,7 @@
+//so precisa do firebase para pegar email senha e avatar
+import firebaseAppAuth from '../firebaseConfig';
+export const TOKEN_KEY= firebaseAppAuth.getToken;
+export const isAuthenticated=()=>localStorage.getItem(TOKEN_KEY)!==null;
+export const getToken=() =>localStorage.getItem(TOKEN_KEY);
+export const login = token => {localStorage.setItem(TOKEN_KEY, token);};
+export const logout = () => {localStorage.removeItem(TOKEN_KEY);}; 
