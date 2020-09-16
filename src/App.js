@@ -38,7 +38,7 @@ class App extends Component {
       },
       {
          label:'Busque aqui',
-         icon:'pi pi-fw pi-comment',
+         icon:'pi pi-fw pi-search',
          command:() => user ? history.push('/dados') : history.push('/login')
       },
       //aqui sao os icones de menu tem que ter a rota e o componente de cada 

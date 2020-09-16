@@ -1,60 +1,115 @@
-//classe que fará consulta e mostrará os dados
 import React, { Component } from 'react';
-import firebase from '../firebaseConfig';
-import { className, COMBINATOR, id } from 'postcss-selector-parser';
+import {Button} from 'reactstrap';
+import api from './api';
+import isNull from 'stack-utils';
+//import { request } from 'express';
 
-class ComponentToPrint extends React.Component {
+class App extends React.Component{
 
-  constructor(props) {
+  constructor (props)
+  {
     super(props);
-
-    this.state = {
-      comerciante: [],
-      pedidos: [],
-      vetoraux:[],
-      value:"",
-      numcomex:0
-    };
-    this.handleChange = this.handleChange.bind(this); 
-  };
-
-  render() {
-    return (
-      <div className="App">   
-        <header className="App-header">
-          <h1>Repasse aos comerciantes da plataforma EasyMeal-web</h1>
-          </header>
-          <h1>Data em avaliação</h1>
-                      <div>
-                       <table align="center">
-                         <tr>
-                         <th>COMERCIANTES</th>
-                         <th>TOTAL</th>
-                        </tr>
-                        <td> 
-                        <select  name ="cbcomerciante" value={this.state.value} onChange={this.handleChange}>
-                        <option value="default">Selecione um comerciante</option>  
-                         {this.state.comerciante.map((ped) => (
-                           <option value= {ped.key}>{ped.email}</option>
-                         ))}
-                        </select>
-                        </td>
-                        <table align="center">
-                         <td>
-                        <select name ="cbpedidos">
-                         {this.state.pedidos.map((ped) => (
-  <option value="nome"> Total vendido: R${ped.vendido}, descontado: R${ped.descontado} a receber: R${ped.receber}</option>
-                         ))}
-                        </select> 
-                        <td><button id="botao" name="botao" onClick={(e) => this.Repasse(e)}>Repasse</button></td>
-                        </td>
-                       </table>                       
-                      </table>
-                     </div>    
-      </div>
-
-    );
+    this.state={items: [],
+                value:"",};
+                this.handleChange = this.handleChange.bind(this); 
   }
-}
+  handleChange(event) {
+    this.setState({value:event.target.value});
+  }    
+    loadItems =async (e)=>
+    {
+        const  response = await api.get('');
+        //var url=
+        console.log(api.get(''));
+        this.setState({items: response.data.items});
+        //console.log(response.data.items);
+       
+        
+    }
+render(){
+    var {items}=this.state;
+    return(
+        <div>
+         <h3> listar todas as perguntas</h3>
+         <br id="teste"></br>
+    
+            <p>Entre com a Duvida</p>
+            <input type="text" name="duvida" id ="duvida"></input>    
+             <Button type="submit" id="botao" onClick={(e)=>this.loadItems(e)} onChange={this.handleChange} color="primary"> Buscar </Button>
+       
+        <Button type="submit" id="prox" color="dark" onClick={(pages, perPage)=>
+         { 
+//while(has_more)
+          //"has_more":true,"quota_max":300,"quota_remaining":160
+    //         var numero = document.getElementById('numero').value; 
+    //         //pegar as proximas páginas
+    //         var father= document.body;
+    //         for (var t=0;t<numero;t++)
+    //         {
+    //             var li=document.getElementById(t);
+    //             father.removeChild(li);
+    //         }
+            
+    //         perPage=numero;
+    //         pages =0;
+    //         var vetoraux=[];
+    //         var start= Number(pages*numero);//3,3,3,1
+    //         var end= Number(start +numero);//3,6,9,1
+          
+    //         if(items.length>numero)
+    //         {
+    //             console.log(items.splice(start,end));//tem que remover esse pedaço);
+    //             console.log(items);
+    //             for (var j=0;j<items.length;j++)
+    //                 {   
+    //                     if (vetoraux[pages]===undefined)
+    //                     {vetoraux[pages]= [];}
+    //                  vetoraux[pages].push(items[j]);
+            
+    //                     if ((j+1)% numero ===0)
+    //                     {pages=pages+1;}
+    //                 }
+            
+    //         if(items.length>numero)
+    //         {
+    //         for (var i=0; i<numero ;i++)
+    //         {  
+    //             var li = document.createElement('li');
+    //             li.setAttribute('key',items[i].id);
+    //             li.setAttribute('id',i);
+    //             li.textContent="Nome: "+" "+items[i].name+" id: "+" "+items[i].id+" "+ " absoluteIndex: "+" "+items[i].absoluteIndex
+    //             father.appendChild(li);
+    //         }
+    //  var p = (items.length-numero);
+    //  if (!p%numero===0&& numero>p)
+    //  {
+    //     for (var q=0;q<p;q++)
+    //  {
+    //     var li = document.createElement('li');
+    //     li.setAttribute('key',items[i].id);
+    //     li.setAttribute('id',i);
+    //     li.textContent="Nome: "+" "+items[i].name+" id: "+" "+items[i].id+" "+ " absoluteIndex: "+" "+items[i].absoluteIndex
+    //     father.appendChild(li);
+    //  }
+    // }
+    //     }
+    //     }
+        
+    //         return vetoraux; 
+
+         }}>Próxima página</Button>
+               {    items.map(item=> (
+ <ul key={items.title}>
  
-export default ComponentToPrint;
+    <p>
+      <strong>question_id: </strong>  {item.question_id}<br></br>
+      <strong>Título: </strong>{item.title} <br></br>
+      <strong>Link: </strong><a href={item.link}>{item.link} </a> <br></br>
+      ---
+    </p>
+  </ul>
+))}
+
+        </div>
+    );}};
+export default App;
